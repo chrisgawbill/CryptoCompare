@@ -6,3 +6,4 @@
 3) I would not make any changes right now. I feel like my solution would be able to handle 100 users. 
 4) I would have included more exchange APIs in the backend so the user would be able to compare different exchanges to each other. I would also expand the list of coins that a user 
     could look up the prices for.
+5) Live version (heroku): https://gawbill-crypto-compare.herokuapp.com/
