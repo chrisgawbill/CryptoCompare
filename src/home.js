@@ -31,11 +31,10 @@ const callKrakenAPI = (coin, callback) => {
     $.ajax({
         url: apiAddress, async: true, success: function (res) {
             if (!(res === 'error')) {
-                console.log("Success");
                 let exchangeOneArray = res.split(",");
                 callback(exchangeOneArray);
             } else {
-                console.log("Error");
+                alert("An Error has occured");
             }
         }
     });
@@ -50,9 +49,7 @@ const callBinanceAPI = (coin, callback) => {
     $.ajax({
         url: apiAddress, async: true, success: function (res) {
             if (!(res === 'error')) {
-                console.log("Success");
                 let exchangeTwoArray = res.split(",");
-                console.log(exchangeTwoArray);
                 callback(exchangeTwoArray);
             } else {
                 console.log("Error");
@@ -71,13 +68,16 @@ const loadCoinInformation = (coinInfoOne, coinInfoTwo) => {
     let display = document.getElementById("content_div");
 
     let holdingDiv = document.createElement("div");
-    holdingDiv.className = "holding_div";
+    holdingDiv.id = "holding_div";
+    holdingDiv.className = "container"
 
     let exchangeInfoOneDiv = document.createElement("div");
-    exchangeInfoOneDiv.className = "exchange_info_one";
+    exchangeInfoOneDiv.id = "exchange_info_one";
+    exchangeInfoOneDiv.className = "card col-2 row-1";
 
     let exchangeInfoTwoDiv = document.createElement("div");
-    exchangeInfoTwoDiv.className = "exchange_info_two";
+    exchangeInfoTwoDiv.id = "exchange_info_two";
+    exchangeInfoTwoDiv.className = "card col-2 row-1";
 
     let exchangeOneAskDiv = document.createElement("div");
     exchangeOneAskDiv.id = "exchange_one_ask";
@@ -96,10 +96,12 @@ const loadCoinInformation = (coinInfoOne, coinInfoTwo) => {
     clearDiv.className = "clear";
 
     let exchangeOneHeader = document.createElement("h2");
-    exchangeOneHeader.className = "exchange_one_header";
+    exchangeOneHeader.id = "exchange_one_header";
+    exchangeOneHeader.className = "card-title";
 
     let exchangeTwoHeader = document.createElement("h2");
-    exchangeTwoHeader.className = "exchange_two_header";
+    exchangeTwoHeader.id = "exchange_two_header";
+    exchangeTwoHeader.className = "card-title";
 
     let exchangeOneHeaderText = document.createTextNode("Kraken");
     exchangeOneHeader.append(exchangeOneHeaderText);

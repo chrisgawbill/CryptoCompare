@@ -18,9 +18,9 @@ app.get('/getKrakenPricing/:coin', function(req, res){
         if(!err && response.statusCode == 200){
             let info = JSON.parse(body);
             if(coin === "ETH"){
-                res.send(info.result.XETHZUSD.a[0] + "," + info.result.XETHZUSD.b[0]);
+                res.send((Math.round(info.result.XETHZUSD.a[0]*10)/10).toFixed(2) + "," + (Math.round(info.result.XETHZUSD.b[0]*10)/10).toFixed(2));
             }else{
-                res.send(info.result.XXBTZUSD.a[0] + "," + info.result.XXBTZUSD.b[0]);
+                res.send((Math.round(info.result.XXBTZUSD.a[0]*10)/10).toFixed(2) + "," + (Math.round(info.result.XXBTZUSD.b[0]*10)/10).toFixed(2));
             }
         }else{
             res.send("Error");
@@ -36,7 +36,7 @@ app.get('/getBinancePricing/:coin', function(req, res){
             let secondExchangeAskPrice = info.askPrice;
             let secondExchangeBidPrice = info.bidPrice;
             convertToUSD(secondExchangeAskPrice, secondExchangeBidPrice, function(data){
-                res.send(data[0] + "," + data[1]);
+                res.send((Math.round(data[0]*10)/10).toFixed(2) + "," + (Math.round(data[1]*10)/10).toFixed(2));
             });
         }
     });
