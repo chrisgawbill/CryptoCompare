@@ -1,26 +1,35 @@
 window.onload = () => {
     let cryptoDropDown = document.getElementById("ddl_crypto");
 
+    //Makes sure that the Ehtereum information is loaded in when the page loads
     setUp("ETH");
 
+    //Monitors change in selection from the #ddl_crypto select
     cryptoDropDown.onchange = () => {
         setUp(cryptoDropDown.value);
     }
 }
+//Calls other methods to help get the information from the APIs from the backend and display that information
 const setUp = (coinName) => {
     let coinExchangeOne;
     let coinExchangeTwo;
 
+    //Calls the method that will clear the div #content_div by manipulating the DOM
     wipeInformmation();
+    //Calls the method that will call the backend to fetch the price of the requseted coin from the Kraken exchange
     callKrakenAPI(coinName, function (dataOne) {
         coinExchangeOne = dataOne;
+        //Calls the method that will call the backend to fetch the price of the requested coin from the Binance exchange
         callBinanceAPI(coinName, function (dataTwo) {
             coinExchangeTwo = dataTwo;
+            //Calls the method that will manipulate the DOM to dynamically display the information
             loadCoinInformation(coinExchangeOne, coinExchangeTwo);
+            //Calls the method that will manipulate the styling to highlight the best price
             stylePreferredPrice(coinExchangeOne, coinExchangeTwo);
         });
     });
 }
+//Calls the backend to fetch the price of the requested coin from the Kraken exchange
 const callKrakenAPI = (coin, callback) => {
     let apiAddress;
     if (coin === "Ethereum") {
@@ -39,6 +48,7 @@ const callKrakenAPI = (coin, callback) => {
         }
     });
 }
+//Calls the backend to fetch the price of the requested coin from the Binance exchange
 const callBinanceAPI = (coin, callback) => {
     let apiAddress;
     if (coin === "Ethereum") {
@@ -58,6 +68,7 @@ const callBinanceAPI = (coin, callback) => {
         }
     });
 }
+//Manipulates the DOM to dynamically display the pricing information
 const loadCoinInformation = (coinInfoOne, coinInfoTwo) => {
     let coinExchangeOneAsk = coinInfoOne[0];
     let coinExchangeOneBid = coinInfoOne[1];
@@ -191,12 +202,14 @@ const loadCoinInformation = (coinInfoOne, coinInfoTwo) => {
 
 
 }
+//Clears the div #content_div by manipulating the DOM
 const wipeInformmation = () =>{
     let display = document.getElementById("content_div");
     while (display.hasChildNodes()) {
         display.removeChild(display.firstChild);
     }
 }
+//Highlights the best pricing by color coding the prices red and green
 const stylePreferredPrice = (coinExchangeOne, coinExchangeTwo) => {
     let exchangeOneAskLabel = document.getElementById("exchange_one_ask_label");
     let exchangeOneAsk = document.getElementById("exchange_one_ask");
@@ -210,6 +223,7 @@ const stylePreferredPrice = (coinExchangeOne, coinExchangeTwo) => {
     let exchangeTwoBidLabel = document.getElementById("exchange_two_bid_label");
     let exchangeTwoBid = document.getElementById("exchange_two_bid");
 
+    //If coinExchangeOne Buying price is better than coinExchangeTwo then it will color code coinExchangeOne Buying price green and the other red
     if (coinExchangeOne[0] < coinExchangeTwo[0]) {
 
         exchangeOneAskLabel.style.color = "green";
@@ -223,6 +237,7 @@ const stylePreferredPrice = (coinExchangeOne, coinExchangeTwo) => {
 
         exchangeTwoAsk.style.color = "red";
         exchangeTwoAsk.style.fontWeight = "bold";
+    // If coinExchangeTwo Buying price is better than coinExchangeOne then it will color code coinExchangeTwo Buying price green and the other red
     } else {
 
         exchangeTwoAskLabel.style.color = "green";
@@ -237,6 +252,7 @@ const stylePreferredPrice = (coinExchangeOne, coinExchangeTwo) => {
         exchangeOneAsk.style.color = "red";
         exchangeOneAsk.style.fontWeight = "bold";
     }
+    //If coinExchangeOne Selling price is better than coinExchangeTwo then it will color code coinExchangeOne Selling price green and the other red
     if (coinExchangeOne[1] > coinExchangeTwo[1]) {
 
         exchangeOneBidLabel.style.color = "green";
@@ -250,6 +266,7 @@ const stylePreferredPrice = (coinExchangeOne, coinExchangeTwo) => {
 
         exchangeTwoBid.style.color = "red";
         exchangeTwoBid.style.fontWeight = "bold";
+    // If coinExchangeTwo Selling price is better than coinExchangeOne then it will color code coinExchangeTwo Selling price green and the other red
     } else {
 
         exchangeTwoBidLabel.style.color = "green";
